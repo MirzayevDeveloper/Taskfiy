@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UserCases\User\" />
+    <Folder Include="UseCases\User\" />
   </ItemGroup>
 
 </Project>
