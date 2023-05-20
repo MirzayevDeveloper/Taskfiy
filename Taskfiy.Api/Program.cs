@@ -1,3 +1,12 @@
+//=================================================
+// Copyright (c) Coalition of Good-Hearted Engineer
+//=================================================
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Taskify.Application;
+using Taskify.Infrastructure;
 
 namespace Taskfiy.Api
 {
@@ -10,6 +19,8 @@ namespace Taskfiy.Api
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+			builder.Services.AddApplication();
+			builder.Services.AddInfrastructure(builder.Configuration);
 
 			var app = builder.Build();
 			if (app.Environment.IsDevelopment())
