@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Taskify.Infrastructure\Taskify.Infrastructure.csproj" />
   </ItemGroup>
 
