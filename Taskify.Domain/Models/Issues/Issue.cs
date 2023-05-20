@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Taskify.Domain.Models.Tasks;
 using Taskify.Domain.Models.Users;
+using Taskify.Domain.Models.UserTasks;
 
 namespace Taskify.Domain.Models.Issues
 {
@@ -20,6 +21,6 @@ namespace Taskify.Domain.Models.Issues
 		public Priority Priority { get; set; }
 		public Status Status { get; set; }
 
-		public ICollection<User> Users { get; set; }
+		public ICollection<UserIssue> UserIssues { get; set; }
 	}
 }

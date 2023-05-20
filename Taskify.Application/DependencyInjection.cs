@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿//=================================================
+// Copyright (c) Coalition of Good-Hearted Engineer
+//=================================================
+
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Taskify.Application
