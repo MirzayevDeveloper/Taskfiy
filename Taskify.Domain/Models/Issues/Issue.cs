@@ -5,23 +5,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-//=================================================
-// Copyright (c) Coalition of Good-Hearted Engineer
-//=================================================
-
+using Taskify.Domain.Models.Tasks;
 using Taskify.Domain.Models.Users;
 
-namespace Taskify.Domain.Models.Tasks
+namespace Taskify.Domain.Models.Issues
 {
-	public class Task
+	public class Issue
 	{
-		[Column("TaskId")]
+		[Column("IssueId")]
 		public Guid Id { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public DateTimeOffset DueDate { get; set; }
 		public Priority Priority { get; set; }
-		public Status MyProperty { get; set; }
+		public Status Status { get; set; }
 
 		public ICollection<User> Users { get; set; }
 	}

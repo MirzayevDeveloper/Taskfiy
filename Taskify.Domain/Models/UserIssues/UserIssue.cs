@@ -4,20 +4,20 @@
 
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Taskify.Domain.Models.Tasks;
+using Taskify.Domain.Models.Issues;
 using Taskify.Domain.Models.Users;
 
 namespace Taskify.Domain.Models.UserTasks
 {
-	public class UserTask
+	public class UserIssue
 	{
-		[Column("UserTaskId")]
+		[Column("UserIssueId")]
 		public Guid Id { get; set; }
 
 		public Guid UserId { get; set; }
-		public Guid TaskId { get; set; }
+		public Guid IssueId { get; set; }
 
 		public User User { get; set; }
-		public Task Task { get; set; }
+		public Issue Issue { get; set; }
 	}
 }
