@@ -2,7 +2,9 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Taskify.Domain.Models.Issues;
@@ -24,10 +26,10 @@ namespace Taskify.Application.Abstractions
 		DbSet<RolePermission> RolePermissions { get; set; }
 		DbSet<UserRole> UserRoles { get; set; }
 
-		public ValueTask<T> AddAsync<T>(T @object);
-		public ValueTask<T> GetAsync<T>(params object[] objectIds) where T : class;
-		public IQueryable<T> GetAll<T>() where T : class;
-		public ValueTask<T> UpdateAsync<T>(T @object);
-		public ValueTask<T> DeleteAsync<T>(T @object);
+		ValueTask<T> AddAsync<T>(T @object, CancellationToken cancellationToken = default);
+		ValueTask<T> GetAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class;
+		IQueryable<T> GetAll<T>() where T : class;
+		ValueTask<T> UpdateAsync<T>(T @object, CancellationToken cancellationToken = default);
+		ValueTask<T> DeleteAsync<T>(T @object, CancellationToken cancellationToken = default);
 	}
 }

@@ -14,6 +14,9 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 		{
 			builder.HasKey(r => r.Id);
 
+			builder.Property(r => r.Id)
+				.ValueGeneratedOnAdd();
+
 			builder.HasIndex(r => r.RoleName);
 		}
 	}

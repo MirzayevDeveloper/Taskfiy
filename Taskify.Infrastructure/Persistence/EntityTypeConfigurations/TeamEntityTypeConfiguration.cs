@@ -14,6 +14,9 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 		{
 			builder.HasKey(t => t.Id);
 
+			builder.Property(t => t.Id)
+				.ValueGeneratedOnAdd();
+
 			builder.HasMany(t => t.Users)
 				.WithOne(u => u.Team)
 				.HasForeignKey(u => u.TeamId)

@@ -12,12 +12,15 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.HasKey(x => x.Id);
+			builder.HasKey(e => e.Id);
 
-			builder.HasIndex(x => x.Username)
+			builder.Property(e => e.Id)
+				.ValueGeneratedOnAdd();
+
+			builder.HasIndex(e => e.Username)
 				.IsUnique();
 
-			builder.HasIndex(x => x.Email)
+			builder.HasIndex(e => e.Email)
 				.IsUnique();
 
 			builder.HasOne(u => u.Team)

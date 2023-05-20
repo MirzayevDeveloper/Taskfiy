@@ -13,9 +13,12 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 	{
 		public void Configure(EntityTypeBuilder<Issue> builder)
 		{
-			builder.HasKey(e => e.Id);
+			builder.HasKey(i => i.Id);
 
-			builder.Navigation(x => x.UserIssues).AutoInclude(autoInclude: true);
+			builder.Property(i => i.Id)
+				.ValueGeneratedOnAdd();
+
+			builder.Navigation(i => i.UserIssues).AutoInclude(autoInclude: true);
 		}
 	}
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Taskify.Application.Abstractions;
+using Taskify.Infrastructure.Mapping;
 using Taskify.Infrastructure.Persistence;
 
 namespace Taskify.Infrastructure
@@ -18,6 +19,8 @@ namespace Taskify.Infrastructure
 			{
 				options.UseNpgsql(connectionString: configuration.GetConnectionString("TaskifyDbConnection"));
 			});
+
+			services.AddAutoMapper(typeof(MappingProfile));
 
 			return services;
 		}

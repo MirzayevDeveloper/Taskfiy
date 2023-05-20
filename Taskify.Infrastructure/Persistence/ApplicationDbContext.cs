@@ -2,7 +2,9 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Taskify.Application.Abstractions;
@@ -32,19 +34,19 @@ namespace Taskify.Infrastructure.Persistence
 		public DbSet<RolePermission> RolePermissions { get; set; }
 		public DbSet<UserRole> UserRoles { get; set; }
 
-		public async ValueTask<T> AddAsync<T>(T @object)
+		public async ValueTask<T> AddAsync<T>(T @object, CancellationToken cancellationToken = default)
 		{
 			var context = new ApplicationDbContext(_options);
 			context.Entry(@object).State = EntityState.Added;
-			await context.SaveChangesAsync();
+			await context.SaveChangesAsync(cancellationToken);
 
 			return @object;
 		}
 
-		public async ValueTask<T> GetAsync<T>(params object[] objectIds) where T : class
+		public async ValueTask<T> GetAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class
 		{
 			var context = new ApplicationDbContext(_options);
-			return await context.FindAsync<T>(objectIds);
+			return await context.FindAsync<T>(id, cancellationToken);
 		}
 
 		public IQueryable<T> GetAll<T>() where T : class
@@ -53,20 +55,20 @@ namespace Taskify.Infrastructure.Persistence
 			return context.Set<T>();
 		}
 
-		public async ValueTask<T> UpdateAsync<T>(T @object)
+		public async ValueTask<T> UpdateAsync<T>(T @object, CancellationToken cancellationToken = default)
 		{
 			var context = new ApplicationDbContext(_options);
 			context.Entry(@object).State = EntityState.Modified;
-			await context.SaveChangesAsync();
+			await context.SaveChangesAsync(cancellationToken);
 
 			return @object;
 		}
 
-		public async ValueTask<T> DeleteAsync<T>(T @object)
+		public async ValueTask<T> DeleteAsync<T>(T @object, CancellationToken cancellationToken = default)
 		{
 			var context = new ApplicationDbContext(_options);
 			context.Entry(@object).State = EntityState.Deleted;
-			await context.SaveChangesAsync();
+			await context.SaveChangesAsync(cancellationToken);
 
 			return @object;
 		}

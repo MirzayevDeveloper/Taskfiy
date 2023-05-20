@@ -13,6 +13,9 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 		public void Configure(EntityTypeBuilder<Permission> builder)
 		{
 			builder.HasKey(x => x.Id);
+
+			builder.Property(x => x.Id)
+				.ValueGeneratedOnAdd();
 		}
 	}
 }

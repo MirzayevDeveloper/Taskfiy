@@ -12,7 +12,10 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 	{
 		public void Configure(EntityTypeBuilder<UserIssue> builder)
 		{
-			builder.HasKey(x => x.Id);
+			builder.HasKey(u => u.Id);
+
+			builder.Property(u => u.Id)
+				.ValueGeneratedOnAdd();
 
 			builder.HasKey(ui => new
 			{
