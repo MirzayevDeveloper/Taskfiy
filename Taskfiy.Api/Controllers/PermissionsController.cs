@@ -3,7 +3,7 @@
 //=================================================
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +44,7 @@ namespace Taskfiy.Api.Controllers
 		[HttpGet]
 		public async ValueTask<IActionResult> GetAllPermissions()
 		{
-			List<GetAllPermissionDto> dtos =
+			IQueryable<GetAllPermissionDto> dtos =
 				await _mediator.Send(new GetPermissionsQuery());
 
 			return Ok(dtos);

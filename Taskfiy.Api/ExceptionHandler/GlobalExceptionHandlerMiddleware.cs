@@ -2,14 +2,16 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
-using System;
+using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Serilog;
+using Taskify.Application.UseCases.Permissions.Exceptions;
 
 namespace Taskfiy.Api.ExceptionHandler
 {
-	public class GlobalExceptionHandlerMiddleware
+	public partial class GlobalExceptionHandlerMiddleware
 	{
 		private readonly RequestDelegate _next;
 
@@ -18,25 +20,78 @@ namespace Taskfiy.Api.ExceptionHandler
 			_next = next;
 		}
 
-		public Task Invoke(HttpContext httpContext)
+		public async Task Invoke(HttpContext httpContext)
 		{
-			try
-			{
-				return _next(httpContext);
-			}
-			catch (Exception exception)
-			{
+			var controllerName = httpContext.GetRouteData()
+				.Values["controller"]?.ToString().ToLower();
 
-				throw;
-			}
-		}
-	}
+			switch (controllerName)
+			{
+				case "permissions":
+					{
+						try
+						{
+							await _next(httpContext);
+						}
+						catch (PermissionValidationException permissionValidationException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-	public static class GlobalExceptionHandlerMiddlewareExtensions
-	{
-		public static IApplicationBuilder UseGlobalExceptionHandlerMiddleware(this IApplicationBuilder builder)
-		{
-			return builder.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+							Logger(status: LogStatus.Error,
+									exception: permissionValidationException,
+									message: permissionValidationException.Message);
+
+							await ExceptionHandler(httpContext, permissionValidationException);
+						}
+						catch (PermissionDependencyValidationException permissionDependencyValidationException)
+							when (permissionDependencyValidationException.InnerException
+										is AlreadyExistsPermissionException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
+
+							Logger(status: LogStatus.Error,
+									exception: permissionDependencyValidationException,
+									message: permissionDependencyValidationException.Message);
+
+							await ExceptionHandler(httpContext, permissionDependencyValidationException);
+						}
+						catch (PermissionDependencyValidationException permissionDependencyValidationException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+							Logger(status: LogStatus.Error,
+									exception: permissionDependencyValidationException,
+									message: permissionDependencyValidationException.Message);
+
+							await ExceptionHandler(httpContext, permissionDependencyValidationException);
+						}
+						catch (PermissionDependencyException permissionDependencyException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+							Logger(status: LogStatus.Fatal,
+									exception: permissionDependencyException,
+									message: permissionDependencyException.Message);
+
+							await ExceptionHandler(httpContext, permissionDependencyException);
+						}
+						catch (PermissionServiceException permissionServiceException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+							Logger(status: LogStatus.Fatal,
+									exception: permissionServiceException,
+									message: permissionServiceException.Message);
+
+							await ExceptionHandler(httpContext, permissionServiceException);
+						}
+						finally
+						{
+							Log.CloseAndFlush();
+						}
+					}
+					break;
+			}
 		}
 	}
 }

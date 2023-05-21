@@ -5,6 +5,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Taskfiy.Api.ExceptionHandler;
 using Taskify.Application;
 using Taskify.Infrastructure;
 
@@ -15,6 +17,11 @@ namespace Taskfiy.Api
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			Log.Logger = new LoggerConfiguration()
+				.Enrich.FromLogContext()
+				.ReadFrom.Configuration(builder.Configuration)
+				.CreateLogger();
 
 			builder.Services.AddApplication();
 			builder.Services.AddInfrastructure(builder.Configuration);
@@ -33,6 +40,7 @@ namespace Taskfiy.Api
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
+			app.UseGlobalExceptionHandlerMiddleware();
 
 			app.MapControllers();
 
