@@ -14,7 +14,9 @@ namespace Taskify.Infrastructure.Mapping
 		public MappingProfile()
 		{
 			CreateMap<Permission, PermissionDto>().ReverseMap();
+			CreateMap<Permission, GetAllPermissionDto>().ReverseMap();
 			CreateMap<Permission, CreatePermissionCommand>().ReverseMap();
+			CreateMap<Permission, UpdatePermissionCommand>().ReverseMap();
 		}
 	}
 }

@@ -3,13 +3,12 @@
 //=================================================
 
 using System.Collections.Generic;
-using System.Linq;
 using MediatR;
 using Taskify.Application.UseCases.Permissions.Models;
 
 namespace Taskify.Application.UseCases.Permissions.Queries
 {
-	public class GetPermissionsQuery : IRequest<List<PermissionDto>>
+	public class GetPermissionsQuery : IRequest<List<GetAllPermissionDto>>
 	{
 	}
 }

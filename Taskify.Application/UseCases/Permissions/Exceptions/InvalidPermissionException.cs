@@ -8,8 +8,8 @@ namespace Taskify.Application.UseCases.Permissions.Exceptions
 {
 	public class InvalidPermissionException : Xeption
 	{
-        public InvalidPermissionException()
-            : base("Permission is invalid.")
-        { }
-    }
+		public InvalidPermissionException()
+			: base("Permission is invalid.")
+		{ }
+	}
 }

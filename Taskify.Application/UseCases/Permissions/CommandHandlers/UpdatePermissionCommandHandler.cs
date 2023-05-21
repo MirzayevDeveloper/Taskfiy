@@ -28,15 +28,15 @@ namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 
 		public async Task Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
 		{
-			Permission maybePermission = _mapper.Map<Permission>(request);
+			Permission permission = _mapper.Map<Permission>(request);
 
-			PermissionValidation.ValidatePermissionOnUpdate(maybePermission);
+			PermissionValidation.ValidatePermissionOnUpdate(permission);
 
-			maybePermission = await _context.GetAsync<Permission>(request.Id);
+			Permission maybePermission = await _context.GetAsync<Permission>(permission.Id);
 
-			PermissionValidation.ValidatePermissionExists(maybePermission, request.Id);
+			PermissionValidation.ValidatePermissionExists(maybePermission, permission.Id);
 
-			await _context.UpdateAsync<Permission>(maybePermission);
+			await _context.UpdateAsync<Permission>(permission);
 		}
 	}
 }

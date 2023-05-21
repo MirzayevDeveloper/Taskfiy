@@ -8,6 +8,6 @@ namespace Taskify.Application.UseCases.Permissions.Exceptions
 {
 	public class NullPermissionException : Xeption
 	{
-        public NullPermissionException() : base("Permission is null.") { }
-    }
+		public NullPermissionException() : base("Permission is null.") { }
+	}
 }

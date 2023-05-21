@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Taskify.Domain.Models.Tasks;
-using Taskify.Domain.Models.Users;
 using Taskify.Domain.Models.UserTasks;
 
 namespace Taskify.Domain.Models.Issues

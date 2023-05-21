@@ -17,7 +17,7 @@ namespace Taskify.Application.UseCases.Permissions.Validation
 			Validate(
 				(Rule: IsInvalid(permission.PermissionName), Parameter: nameof(Permission.PermissionName)));
 		}
-		
+
 		public static void ValidatePermissionOnUpdate(Permission permission)
 		{
 			ValidatePermissionIsNotNull(permission);

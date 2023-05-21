@@ -44,18 +44,22 @@ namespace Taskfiy.Api.Controllers
 		[HttpGet]
 		public async ValueTask<IActionResult> GetAllPermissions()
 		{
-			List<PermissionDto> dtos =
+			List<GetAllPermissionDto> dtos =
 				await _mediator.Send(new GetPermissionsQuery());
 
 			return Ok(dtos);
 		}
 
-		[HttpPut]
-		public async ValueTask<IActionResult> UpdatePermissionAsync(UpdatePermissionCommand command)
+		[HttpPut("{permissionId}")]
+		public async ValueTask<IActionResult> UpdatePermissionAsync(Guid permissionId, PermissionDto dto)
 		{
-			await _mediator.Send(command);
+			await _mediator.Send(new UpdatePermissionCommand()
+			{
+				Id = permissionId,
+				PermissionName = dto.PermissionName
+			});
 
-			return Ok(command);
+			return Ok(dto);
 		}
 
 		[HttpDelete]
