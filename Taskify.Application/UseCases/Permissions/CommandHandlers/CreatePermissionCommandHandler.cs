@@ -8,6 +8,7 @@ using AutoMapper;
 using MediatR;
 using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Permissions.Commands;
+using Taskify.Application.UseCases.Permissions.Models;
 using Taskify.Application.UseCases.Permissions.Validation;
 using Taskify.Domain.Models.Roles;
 

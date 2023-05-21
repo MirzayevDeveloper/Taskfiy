@@ -15,9 +15,9 @@ namespace Taskify.Domain.Models.UserTasks
 		public Guid Id { get; set; }
 
 		public Guid UserId { get; set; }
-		public Guid IssueId { get; set; }
-
 		public User User { get; set; }
+
+		public Guid IssueId { get; set; }
 		public Issue Issue { get; set; }
 	}
 }

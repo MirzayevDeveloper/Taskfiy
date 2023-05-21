@@ -2,13 +2,14 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using Taskify.Application.UseCases.Permissions.Models;
 
 namespace Taskify.Application.UseCases.Permissions.Queries
 {
-	public class GetPermissionsQuery : IRequest<IQueryable<PermissionDto>>
+	public class GetPermissionsQuery : IRequest<List<PermissionDto>>
 	{
 	}
 }

@@ -22,11 +22,6 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 
 			builder.HasIndex(e => e.Email)
 				.IsUnique();
-
-			builder.HasOne(u => u.Team)
-				.WithMany(t => t.Users)
-				.HasForeignKey(u => u.TeamId)
-				.IsRequired();
 		}
 	}
 }

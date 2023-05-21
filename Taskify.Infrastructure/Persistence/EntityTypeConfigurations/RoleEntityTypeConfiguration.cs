@@ -8,7 +8,7 @@ using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 {
-	internal class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
+	public class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
 	{
 		public void Configure(EntityTypeBuilder<Role> builder)
 		{

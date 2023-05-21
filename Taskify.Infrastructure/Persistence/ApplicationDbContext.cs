@@ -75,6 +75,8 @@ namespace Taskify.Infrastructure.Persistence
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.ApplyConfiguration(
 				new IssueEntityTypeConfiguration());
 
@@ -95,8 +97,6 @@ namespace Taskify.Infrastructure.Persistence
 
 			modelBuilder.ApplyConfiguration(
 				new UserRoleEntityTypeConfiguration());
-
-			base.OnModelCreating(modelBuilder);
 		}
 	}
 }

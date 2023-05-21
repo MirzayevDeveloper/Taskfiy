@@ -14,6 +14,9 @@ namespace Taskify.Infrastructure.Persistence.EntityTypeConfigurations
 		{
 			builder.HasKey(x => x.Id);
 
+			builder.HasIndex(x => x.PermissionName)
+				.IsUnique();
+
 			builder.Property(x => x.Id)
 				.ValueGeneratedOnAdd();
 		}

@@ -2,11 +2,12 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Permissions.Models;
 using Taskify.Application.UseCases.Permissions.Queries;
@@ -14,7 +15,7 @@ using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 {
-	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, IQueryable<PermissionDto>>
+	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, List<PermissionDto>>
 	{
 		private readonly IApplicationDbContext _context;
 		private readonly IMapper _mapper;
@@ -27,14 +28,14 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 			_mapper = mapper;
 		}
 
-		public Task<IQueryable<PermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
+		public async Task<List<PermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
 		{
-			IQueryable<Permission> permissions = _context.GetAll<Permission>();
+			List<Permission> permissions = await _context.GetAll<Permission>().ToListAsync();
 
-			IQueryable<PermissionDto> dtos =
-				_mapper.Map<IQueryable<PermissionDto>>(permissions);
+			List<PermissionDto> dtos =
+				_mapper.Map<List<Permission>, List<PermissionDto>>(permissions);
 
-			return Task.FromResult(dtos);
+			return dtos;
 		}
 	}
 }

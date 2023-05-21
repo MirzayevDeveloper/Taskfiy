@@ -15,6 +15,7 @@ namespace Taskify.Domain.Models.Teams
 		public Guid Id { get; set; }
 		public string TeamName { get; set; }
 
+		[NotMapped]
 		public ICollection<User> Users { get; set; }
 	}
 }

@@ -20,7 +20,6 @@ namespace Taskify.Domain.Models.Users
 		public string Password { get; set; }
 		public string Email { get; set; }
 
-        public Team TeamId { get; set; }
         public Team Team { get; set; }
 
         public ICollection<UserIssue> UserIssues { get; set; }
