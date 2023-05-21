@@ -3,19 +3,20 @@
 //=================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Permissions.Models;
 using Taskify.Application.UseCases.Permissions.Queries;
+using Taskify.Application.UseCases.Permissions.Validations;
 using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 {
-	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, List<GetAllPermissionDto>>
+	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, IQueryable<GetAllPermissionDto>>
 	{
 		private readonly IApplicationDbContext _context;
 		private readonly IMapper _mapper;
@@ -28,14 +29,15 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 			_mapper = mapper;
 		}
 
-		public async Task<List<GetAllPermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
+		public async Task<IQueryable<GetAllPermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken) =>
+		PermissionExceptionHandler.TryCatch(() =>
 		{
-			List<Permission> permissions = await _context.GetAll<Permission>().ToListAsync();
+			List<Permission> permissions = _context.GetAll<Permission>().ToList();
 
-			List<GetAllPermissionDto> dtos =
-				_mapper.Map<List<Permission>, List<GetAllPermissionDto>>(permissions);
+			IQueryable<GetAllPermissionDto> dtos =
+				_mapper.Map<List<Permission>, List<GetAllPermissionDto>>(permissions).AsQueryable();
 
 			return dtos;
-		}
+		});
 	}
 }

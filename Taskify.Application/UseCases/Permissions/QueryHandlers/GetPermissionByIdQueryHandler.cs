@@ -10,11 +10,12 @@ using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Permissions.Models;
 using Taskify.Application.UseCases.Permissions.Queries;
 using Taskify.Application.UseCases.Permissions.Validation;
+using Taskify.Application.UseCases.Permissions.Validations;
 using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 {
-	public partial class GetPermissionByIdQueryHandler : IRequestHandler<GetPermissionByIdQuery, PermissionDto>
+	public class GetPermissionByIdQueryHandler : IRequestHandler<GetPermissionByIdQuery, PermissionDto>
 	{
 		private readonly IApplicationDbContext _context;
 		private readonly IMapper _mapper;
@@ -27,7 +28,8 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 			_mapper = mapper;
 		}
 
-		public async Task<PermissionDto> Handle(GetPermissionByIdQuery request, CancellationToken cancellationToken)
+		public Task<PermissionDto> Handle(GetPermissionByIdQuery request, CancellationToken cancellationToken) =>
+		PermissionExceptionHandler.TryCatch(async () =>
 		{
 			PermissionValidation.ValidatePermissionId(request.permissionId);
 
@@ -39,6 +41,6 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 			PermissionDto dto = _mapper.Map<PermissionDto>(maybePermission);
 
 			return dto;
-		}
+		});
 	}
 }

@@ -8,12 +8,14 @@ using AutoMapper;
 using MediatR;
 using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Permissions.Commands;
+using Taskify.Application.UseCases.Permissions.Models;
 using Taskify.Application.UseCases.Permissions.Validation;
+using Taskify.Application.UseCases.Permissions.Validations;
 using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 {
-	public class UpdatePermissionCommandHandler : IRequestHandler<UpdatePermissionCommand>
+	public class UpdatePermissionCommandHandler : IRequestHandler<UpdatePermissionCommand, PermissionDto>
 	{
 		private readonly IApplicationDbContext _context;
 		private readonly IMapper _mapper;
@@ -26,7 +28,8 @@ namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 			_mapper = mapper;
 		}
 
-		public async Task Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
+		public Task<PermissionDto> Handle(UpdatePermissionCommand request, CancellationToken cancellationToken) =>
+		PermissionExceptionHandler.TryCatch(async () =>
 		{
 			Permission permission = _mapper.Map<Permission>(request);
 
@@ -37,6 +40,8 @@ namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 			PermissionValidation.ValidatePermissionExists(maybePermission, permission.Id);
 
 			await _context.UpdateAsync<Permission>(permission);
-		}
+
+			return _mapper.Map<PermissionDto>(maybePermission);
+		});
 	}
 }
