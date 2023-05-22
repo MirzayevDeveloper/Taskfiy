@@ -19,6 +19,11 @@ namespace Taskfiy.Api.Controllers
 	{
 		private readonly IMediator _mediator;
 
+		public RolesController(IMediator mediator)
+		{
+			_mediator = mediator;
+		}
+
 		[HttpPost]
 		public async ValueTask<IActionResult> PostRoleAsync(CreateRoleCommand command)
 		{

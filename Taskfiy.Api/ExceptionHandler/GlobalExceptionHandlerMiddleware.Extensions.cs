@@ -29,7 +29,8 @@ namespace Taskfiy.Api.ExceptionHandler
 			var errorResponse = new
 			{
 				StatusCode = httpContext.Response.StatusCode,
-				Message = exception.InnerException.Message
+				InnerMessage = exception.InnerException.Message,
+				Message = exception.Message
 			};
 
 			var json = JsonConvert.SerializeObject(errorResponse);

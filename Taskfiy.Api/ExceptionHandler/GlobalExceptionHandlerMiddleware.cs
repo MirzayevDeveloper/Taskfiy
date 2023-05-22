@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Serilog;
 using Taskify.Application.UseCases.Permissions.Exceptions;
+using Taskify.Application.UseCases.Roles.Exceptions;
 
 namespace Taskfiy.Api.ExceptionHandler
 {
@@ -84,6 +85,70 @@ namespace Taskfiy.Api.ExceptionHandler
 									message: permissionServiceException.Message);
 
 							await ExceptionHandler(httpContext, permissionServiceException);
+						}
+						finally
+						{
+							Log.CloseAndFlush();
+						}
+					}
+					break;
+				case "roles":
+					{
+						try
+						{
+							await _next(httpContext);
+						}
+						catch (RoleValidationException roleValidationException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+							Logger(status: LogStatus.Error,
+									exception: roleValidationException,
+									message: roleValidationException.Message);
+
+							await ExceptionHandler(httpContext, roleValidationException);
+						}
+						catch (RoleDependencyValidationException roleDependencyValidationException)
+							when (roleDependencyValidationException.InnerException
+										is AlreadyExistsRoleException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
+
+							Logger(status: LogStatus.Error,
+									exception: roleDependencyValidationException,
+									message: roleDependencyValidationException.Message);
+
+							await ExceptionHandler(httpContext, roleDependencyValidationException);
+						}
+						catch (RoleDependencyValidationException roleDependencyValidationException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+							Logger(status: LogStatus.Error,
+									exception: roleDependencyValidationException,
+									message: roleDependencyValidationException.Message);
+
+							await ExceptionHandler(httpContext, roleDependencyValidationException);
+						}
+						catch (RoleDependencyException roleDependencyException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+							Logger(status: LogStatus.Fatal,
+									exception: roleDependencyException,
+									message: roleDependencyException.Message);
+
+							await ExceptionHandler(httpContext, roleDependencyException);
+						}
+						catch (RoleServiceException roleServiceException)
+						{
+							httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+							Logger(status: LogStatus.Fatal,
+									exception: roleServiceException,
+									message: roleServiceException.Message);
+
+							await ExceptionHandler(httpContext, roleServiceException);
 						}
 						finally
 						{

@@ -9,6 +9,5 @@ namespace Taskify.Application.UseCases.Roles.Models
 	public class RoleDto
 	{
 		public string RoleName { get; set; }
-		public List<string> Permissions { get; set; }
 	}
 }
