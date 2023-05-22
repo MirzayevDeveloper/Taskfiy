@@ -1,4 +1,8 @@
-﻿using System;
+﻿//=================================================
+// Copyright (c) Coalition of Good-Hearted Engineer
+//=================================================
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 

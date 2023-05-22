@@ -4,11 +4,11 @@
 
 using System.Linq;
 using MediatR;
-using Taskify.Application.UseCases.Permissions.Models;
+using Taskify.Application.UseCases.Roles.Models;
 
-namespace Taskify.Application.UseCases.Permissions.Queries
+namespace Taskify.Application.UseCases.Roles.Queries
 {
-	public class GetPermissionsQuery : IRequest<IQueryable<GetPermissionsDto>>
+	public class GetRolesQuery : IRequest<IQueryable<GetRolesDto>>
 	{
 	}
 }

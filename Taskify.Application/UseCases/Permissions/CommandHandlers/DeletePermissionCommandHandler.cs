@@ -38,7 +38,7 @@ namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 
 			PermissionValidation.ValidatePermissionExists(maybePermission, request.permissionId);
 
-			await _context.DeleteAsync<Permission>(maybePermission);
+			maybePermission = await _context.DeleteAsync<Permission>(maybePermission);
 
 			return _mapper.Map<PermissionDto>(maybePermission);
 		});

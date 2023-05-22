@@ -9,6 +9,12 @@ namespace Taskify.Application.UseCases.Permissions.Commands
 {
 	public class CreatePermissionCommand : IRequest<PermissionDto>
 	{
-		public string PermissionName { get; set; }
+		private string _permissionName;
+
+		public string PermissionName
+		{
+			get { return _permissionName; }
+			set { _permissionName = value.ToLower(); }
+		}
 	}
 }

@@ -8,7 +8,7 @@ namespace Taskify.Application.UseCases.Permissions.Exceptions
 {
 	public class PermissionDependencyValidationException : Xeption
 	{
-        public PermissionDependencyValidationException(Xeption innerException)
-            : base(message: "Team dependency validation error occurred, fix the errors and try again.", innerException) { }
-    }
+		public PermissionDependencyValidationException(Xeption innerException)
+			: base(message: "Permission dependency validation error occurred, fix the errors and try again.", innerException) { }
+	}
 }

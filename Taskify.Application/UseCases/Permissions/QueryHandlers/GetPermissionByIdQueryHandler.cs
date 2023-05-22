@@ -38,9 +38,7 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 
 			PermissionValidation.ValidatePermissionExists(maybePermission, request.permissionId);
 
-			PermissionDto dto = _mapper.Map<PermissionDto>(maybePermission);
-
-			return dto;
+			return _mapper.Map<PermissionDto>(maybePermission);
 		});
 	}
 }

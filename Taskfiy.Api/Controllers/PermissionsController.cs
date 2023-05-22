@@ -27,9 +27,9 @@ namespace Taskfiy.Api.Controllers
 		[HttpPost]
 		public async ValueTask<IActionResult> PostPermissionAsync(CreatePermissionCommand command)
 		{
-			await _mediator.Send(command);
+			PermissionDto dto = await _mediator.Send(command);
 
-			return Ok(command);
+			return Ok(dto);
 		}
 
 		[HttpGet("permissionId")]
@@ -44,7 +44,7 @@ namespace Taskfiy.Api.Controllers
 		[HttpGet]
 		public async ValueTask<IActionResult> GetAllPermissions()
 		{
-			IQueryable<GetAllPermissionDto> dtos =
+			IQueryable<GetPermissionsDto> dtos =
 				await _mediator.Send(new GetPermissionsQuery());
 
 			return Ok(dtos);
@@ -53,7 +53,7 @@ namespace Taskfiy.Api.Controllers
 		[HttpPut("{permissionId}")]
 		public async ValueTask<IActionResult> UpdatePermissionAsync(Guid permissionId, PermissionDto dto)
 		{
-			await _mediator.Send(new UpdatePermissionCommand()
+			dto = await _mediator.Send(new UpdatePermissionCommand()
 			{
 				Id = permissionId,
 				PermissionName = dto.PermissionName
@@ -65,9 +65,9 @@ namespace Taskfiy.Api.Controllers
 		[HttpDelete]
 		public async ValueTask<IActionResult> DeletePermissionAsync(Guid permissionId)
 		{
-			await _mediator.Send(new DeletePermissionCommand(permissionId));
+			PermissionDto dto = await _mediator.Send(new DeletePermissionCommand(permissionId));
 
-			return Ok();
+			return Ok(dto);
 		}
 	}
 }

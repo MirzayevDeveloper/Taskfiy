@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Taskify.Application.UseCases.Permissions.Models
 {
-	public class GetAllPermissionDto
+	public class GetPermissionsDto
 	{
 		[JsonPropertyName("permission_id")]
 		public Guid Id { get; set; }

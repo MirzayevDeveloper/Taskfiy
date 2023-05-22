@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Serilog;
 using Taskify.Application.UseCases.Permissions.Exceptions;
 using Taskify.Application.UseCases.Permissions.Models;
 using Xeptions;
@@ -17,7 +16,7 @@ namespace Taskify.Application.UseCases.Permissions.Validations
 	public static class PermissionExceptionHandler
 	{
 		public delegate Task<PermissionDto> ReturningPermissionFunction();
-		public delegate IQueryable<GetAllPermissionDto> ReturningPermissionsFunction();
+		public delegate IQueryable<GetPermissionsDto> ReturningPermissionsFunction();
 
 		public static async Task<PermissionDto> TryCatch(ReturningPermissionFunction returningPermissionFunction)
 		{
@@ -44,7 +43,7 @@ namespace Taskify.Application.UseCases.Permissions.Validations
 
 				throw CreateFatalDependencyException(failedPermissionStorageException);
 			}
-			catch (DbUpdateException dbUpdateException) 
+			catch (DbUpdateException dbUpdateException)
 				when (dbUpdateException.InnerException.Message.Contains("23505"))
 			{
 				var alreadyExistsPermissionException =
@@ -68,7 +67,7 @@ namespace Taskify.Application.UseCases.Permissions.Validations
 			}
 		}
 
-		public static IQueryable<GetAllPermissionDto> TryCatch(ReturningPermissionsFunction returningPermissionsFunction)
+		public static IQueryable<GetPermissionsDto> TryCatch(ReturningPermissionsFunction returningPermissionsFunction)
 		{
 			try
 			{
@@ -78,6 +77,13 @@ namespace Taskify.Application.UseCases.Permissions.Validations
 			{
 				var failedPermissionStorageException =
 					new FailedPermissionStorageException(postgresException);
+
+				throw CreateFatalDependencyException(failedPermissionStorageException);
+			}
+			catch (DbUpdateException dbUpdateException)
+			{
+				var failedPermissionStorageException =
+					new FailedPermissionStorageException(dbUpdateException);
 
 				throw CreateFatalDependencyException(failedPermissionStorageException);
 			}

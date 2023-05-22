@@ -16,7 +16,7 @@ using Taskify.Domain.Models.Roles;
 
 namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 {
-	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, IQueryable<GetAllPermissionDto>>
+	public class GetPermissionsQueryHandler : IRequestHandler<GetPermissionsQuery, IQueryable<GetPermissionsDto>>
 	{
 		private readonly IApplicationDbContext _context;
 		private readonly IMapper _mapper;
@@ -29,13 +29,13 @@ namespace Taskify.Application.UseCases.Permissions.QueryHandlers
 			_mapper = mapper;
 		}
 
-		public async Task<IQueryable<GetAllPermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken) =>
+		public async Task<IQueryable<GetPermissionsDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken) =>
 		PermissionExceptionHandler.TryCatch(() =>
 		{
 			List<Permission> permissions = _context.GetAll<Permission>().ToList();
 
-			IQueryable<GetAllPermissionDto> dtos =
-				_mapper.Map<List<Permission>, List<GetAllPermissionDto>>(permissions).AsQueryable();
+			IQueryable<GetPermissionsDto> dtos =
+				_mapper.Map<List<Permission>, List<GetPermissionsDto>>(permissions).AsQueryable();
 
 			return dtos;
 		});

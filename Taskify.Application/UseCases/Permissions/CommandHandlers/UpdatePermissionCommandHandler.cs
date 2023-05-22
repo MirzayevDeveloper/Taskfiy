@@ -39,7 +39,7 @@ namespace Taskify.Application.UseCases.Permissions.CommandHandlers
 
 			PermissionValidation.ValidatePermissionExists(maybePermission, permission.Id);
 
-			await _context.UpdateAsync<Permission>(permission);
+			maybePermission = await _context.UpdateAsync<Permission>(permission);
 
 			return _mapper.Map<PermissionDto>(maybePermission);
 		});
