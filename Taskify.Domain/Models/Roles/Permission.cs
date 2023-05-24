@@ -10,11 +10,10 @@ namespace Taskify.Domain.Models.Roles
 {
 	public class Permission
 	{
-		[Column("PermissionId")]
 		public Guid Id { get; set; }
 		public string PermissionName { get; set; }
 
-		[NotMapped]
+
 		public ICollection<RolePermission> RolePermissions { get; set; }
 	}
 }

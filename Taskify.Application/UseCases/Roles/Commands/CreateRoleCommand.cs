@@ -19,5 +19,6 @@ namespace Taskify.Application.UseCases.Roles.Commands
 			get { return _roleName; }
 			set { _roleName = value.ToLower(); }
 		}
+		public List<string> Permissions { get; set; } = new List<string>();
 	}
 }

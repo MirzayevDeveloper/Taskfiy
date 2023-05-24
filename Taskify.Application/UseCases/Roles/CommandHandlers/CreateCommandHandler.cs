@@ -2,10 +2,13 @@
 // Copyright (c) Coalition of Good-Hearted Engineer
 //=================================================
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Taskify.Application.Abstractions;
 using Taskify.Application.UseCases.Roles.Commands;
 using Taskify.Application.UseCases.Roles.Models;
@@ -34,8 +37,19 @@ namespace Taskify.Application.UseCases.Roles.CommandHandlers
 
 			RoleValidation.ValidateRoleOnCreate(role);
 
+			RoleDto dto = _mapper.Map<RoleDto>(request);
+
 			await _context.AddAsync<Role>(role);
 
+			role = await _context.GetAll<Role>()
+						.FirstOrDefaultAsync(p => p.RoleName
+						.Equals(request.RoleName));
+
+			List<RolePermission> rolePermissions = 
+				await RoleValidation.ValidateRolePermissions(dto, role.Id);
+
+			await _context.RolePermissions.AddRangeAsync(rolePermissions);
+			
 			return _mapper.Map<RoleDto>(role);
 		});
 	}

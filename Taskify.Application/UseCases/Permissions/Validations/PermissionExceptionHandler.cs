@@ -117,7 +117,6 @@ namespace Taskify.Application.UseCases.Permissions.Validations
 		private static PermissionValidationException CreateValidationException(Xeption exception)
 		{
 			var permissionValidationException = new PermissionValidationException(exception);
-			//Log.Error(permissionValidationException, exception.Message);
 
 			return permissionValidationException;
 		}
