@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Taskfiy.Api/appsettings.json
 /Taskfiy.Api/appsettings.Development.json
+/Taskfiy.Api/appsettings.json
